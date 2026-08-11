@@ -2,9 +2,76 @@
 
 **English** · [한국어](README_KO.md)
 
-**Open, practical workflows for AI-assisted humanities and social-science research with Codex and Claude Code.**
+**Distribution and documentation hub for reproducible AI-assisted humanities and social-science research with Codex and Claude Code.**
 
-This repository documents reproducible ways to use **Codex and Claude Code as role-separated research agents** rather than as interchangeable chatbots. It focuses on two concrete workflows developed through real scholarly use:
+> **What this repository is:** a lightweight distribution entry point plus the public operating manuals. It now contains installer and diagnostic scripts, but the two workflow engines themselves remain in their maintained component repositories: `icerain-cmd/book-to-skill` and `icerain-cmd/translate-book`. This avoids duplicating code while giving users one place to install, verify, learn, and reproduce the complete workflow.
+
+## Quick start
+
+### Windows PowerShell
+
+```powershell
+git clone https://github.com/icerain-cmd/codex-claude-research-workflows.git
+cd codex-claude-research-workflows
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+powershell -ExecutionPolicy Bypass -File .\doctor.ps1
+```
+
+Custom install root:
+
+```powershell
+.\install.ps1 -InstallRoot "R:\tools\codex-claude-research-tools"
+.\doctor.ps1 -InstallRoot "R:\tools\codex-claude-research-tools"
+```
+
+### WSL / Linux / macOS
+
+```bash
+git clone https://github.com/icerain-cmd/codex-claude-research-workflows.git
+cd codex-claude-research-workflows
+bash install.sh
+bash doctor.sh
+```
+
+Custom install root:
+
+```bash
+bash install.sh --root /mnt/r/tools/codex-claude-research-tools
+bash doctor.sh --root /mnt/r/tools/codex-claude-research-tools
+```
+
+The installer:
+
+1. clones or fast-forward updates `icerain-cmd/book-to-skill`;
+2. clones or fast-forward updates `icerain-cmd/translate-book`;
+3. installs the `research-to-skill` Python CLI and common PDF/DOCX dependencies;
+4. installs `pypandoc` and `beautifulsoup4` for the translation pipeline;
+5. links the maintained `translate-book` checkout into Codex and Claude Code skill directories;
+6. reports missing external tools such as Pandoc or Calibre `ebook-convert`.
+
+The `doctor` scripts check the repositories, Python version, `research-to-skill`, translation helpers, Pandoc/Calibre, agent commands, and skill paths. Missing optional agent/tooling is reported as a warning; broken core installation is reported as a failure.
+
+Use `--skip-skill-links` / `-SkipSkillLinks` or `--skip-python-deps` / `-SkipPythonDeps` when you want the hub to manage only part of the environment.
+
+## Repository layout
+
+```text
+codex-claude-research-workflows/
+├── install.ps1              # Windows installer / updater
+├── install.sh               # WSL/Linux/macOS installer / updater
+├── doctor.ps1               # Windows environment diagnostics
+├── doctor.sh                # Unix environment diagnostics
+├── components.lock.json     # documented component release baselines
+├── examples/                # copy-ready operating examples
+├── docs/                    # full manuals and quickstarts
+└── .github/workflows/       # distribution smoke checks
+```
+
+`components.lock.json` records the component commits used as the documented release baseline. The installers deliberately follow the maintained `master` / `main` branches so an existing installation can receive later fixes; use the lock file when you need an exact reproducibility reference.
+
+## What the workflows cover
+
+This project documents reproducible ways to use **Codex and Claude Code as role-separated research agents** rather than as interchangeable chatbots. It focuses on two concrete workflows developed through real scholarly use:
 
 1. **Research-to-Skill** — persistent, provenance-aware research memory for papers, books, notes, claims, concepts, arguments, and evidence locators.
 2. **Scholarly Korean → English Translation** — an asymmetric production workflow in which Codex produces the translation and Claude Code independently reviews it without retranslating the manuscript from scratch.
@@ -83,11 +150,12 @@ The reviewer is specifically asked to check:
 
 Official author romanization, target-journal style, and genuine source ambiguity remain explicit **human decisions**.
 
-## Documentation
+## Documentation and examples
 
 ### English
 
 - **[Full User Manual](docs/USER_MANUAL_EN.md)** — installation, daily operation, handoff, validation, recovery, and copy-ready prompts.
+- **[Copy-ready examples](examples/README.md)** — minimal command and handoff examples for both workflows.
 
 ### Korean
 
@@ -96,9 +164,9 @@ Official author romanization, target-journal style, and genuine source ambiguity
 - **[Research-to-Skill 빠른 시작](docs/RESEARCH_TO_SKILL_QUICKSTART_KO.md)**
 - **[학술 한→영 번역 빠른 시작](docs/SCHOLARLY_KO_EN_QUICKSTART_KO.md)**
 
-## Related repositories
+## Component repositories
 
-The workflows documented here are based on the following public software:
+The workflow engines are maintained separately so they can preserve their own upstream history, tests, and licenses.
 
 ### Research-to-Skill
 
@@ -151,22 +219,13 @@ This is **not** an official OpenAI or Anthropic repository, and it does not impl
 
 This repository also does not replace scholarly judgment. The workflows are designed to make AI-assisted work more auditable, not to remove human responsibility.
 
-## Documentation license
+## Licensing
 
-Original documentation in this repository is released under **Creative Commons Attribution 4.0 International (CC BY 4.0)** unless otherwise noted.
+Original documentation in this repository is released under **Creative Commons Attribution 4.0 International (CC BY 4.0)** unless otherwise noted; see [LICENSE](LICENSE).
 
-You may:
+Original distribution code in this repository, including the installer and doctor scripts, is released under the **MIT License**; see [LICENSE-CODE](LICENSE-CODE).
 
-- share the documentation;
-- adapt it;
-- translate it;
-- use it in research, teaching, workshops, and institutional workflows;
-
-provided appropriate attribution is given.
-
-Software code and third-party materials are **not** relicensed by this documentation repository and remain under their respective licenses.
-
-See [LICENSE](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The component repositories and third-party materials retain their respective licenses. This hub does not relicense them.
 
 ## Citation
 
@@ -176,4 +235,4 @@ A `CITATION.cff` file is included so the repository can be cited in academic wor
 
 Maintained by **Lee Yong Wook** (`icerain-cmd`).
 
-This documentation was developed with AI assistance and organized as an open, reproducible research workflow guide.
+This documentation and lightweight distribution layer were developed with AI assistance and organized as an open, reproducible research workflow guide.
