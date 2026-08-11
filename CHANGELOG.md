@@ -1,0 +1,19 @@
+# Changelog
+
+## v1.0.0 — 2026-08-11
+
+Initial public documentation baseline.
+
+### Added
+
+- Integrated Korean user manual for Codex + Claude Code research workflows.
+- Research-to-Skill quickstart covering installation, ingest, compile, validation, writer locks, and HANDOFF.
+- Scholarly Korean→English quickstart covering Codex Translator → Claude Code Reviewer role separation, fidelity gates, SCHOLARLY_HANDOFF, and publication review.
+- CC BY 4.0 license for original documentation.
+- Third-party notices preserving MIT licensing and upstream attribution for `book-to-skill` and `translate-book`.
+- Citation metadata and contribution guidance.
+
+### Software baselines documented
+
+- `icerain-cmd/book-to-skill` — Research-to-Skill baseline commit `9355188b292ede45262d2871049385d310d6b106`
+- `icerain-cmd/translate-book` — scholarly KO→EN baseline commit `89289c5be53610cd48959db699760396bee4ba60`
