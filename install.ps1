@@ -86,7 +86,7 @@ if (-not $SkipPythonDeps) {
     Write-Warning "Python dependency installation skipped."
 }
 
-function Ensure-Junction {
+function Ensure-SkillLink {
     param(
         [string]$Target,
         [string]$Source
@@ -100,14 +100,28 @@ function Ensure-Junction {
         return
     }
 
-    New-Item -ItemType Junction -Path $Target -Target $Source | Out-Null
-    Write-Host "OK: linked $Target -> $Source"
+    try {
+        New-Item -ItemType Junction -Path $Target -Target $Source -ErrorAction Stop | Out-Null
+        Write-Host "OK: junction $Target -> $Source"
+        return
+    } catch {
+        Write-Warning "Junction creation failed for $Target; trying a symbolic link. This can happen when the source is on a network/shared drive."
+    }
+
+    try {
+        New-Item -ItemType SymbolicLink -Path $Target -Target $Source -ErrorAction Stop | Out-Null
+        Write-Host "OK: symbolic link $Target -> $Source"
+        return
+    } catch {
+        Write-Warning "Could not create a skill link at $Target. The component checkout is still installed at $Source."
+        Write-Warning "Fallback: run 'npx skills add icerain-cmd/translate-book -a codex -g' and/or 'npx skills add icerain-cmd/translate-book -a claude-code -g'."
+    }
 }
 
 if (-not $SkipSkillLinks) {
     Write-Step "Linking the maintained translate-book fork into agent skill directories"
-    Ensure-Junction -Target (Join-Path $HOME ".agents\skills\translate-book") -Source $TranslateRepo
-    Ensure-Junction -Target (Join-Path $HOME ".claude\skills\translate-book") -Source $TranslateRepo
+    Ensure-SkillLink -Target (Join-Path $HOME ".agents\skills\translate-book") -Source $TranslateRepo
+    Ensure-SkillLink -Target (Join-Path $HOME ".claude\skills\translate-book") -Source $TranslateRepo
 } else {
     Write-Warning "Agent skill links skipped."
 }
