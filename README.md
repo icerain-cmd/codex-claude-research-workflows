@@ -1,18 +1,31 @@
 # Codex · Claude Code Research Workflows
 
-**한국어** · [English](README_EN.md)
+**English** · [한국어](README_KO.md)
 
-**Open, practical workflows for AI-assisted humanities research with Codex and Claude Code.**
+**Open, practical workflows for AI-assisted humanities and social-science research with Codex and Claude Code.**
 
-이 저장소는 인문학·사회과학 연구자가 **Codex와 Claude Code를 역할 분리형으로 활용**할 수 있도록 정리한 공개 실사용 가이드입니다. 단순 프롬프트 모음이 아니라, 연구 자료의 구조화·에이전트 간 인계·학술 한→영 번역의 생성/검증 분업을 재현 가능한 워크플로로 설명합니다.
+This repository documents reproducible ways to use **Codex and Claude Code as role-separated research agents** rather than as interchangeable chatbots. It focuses on two concrete workflows developed through real scholarly use:
 
-## What this repository covers
+1. **Research-to-Skill** — persistent, provenance-aware research memory for papers, books, notes, claims, concepts, arguments, and evidence locators.
+2. **Scholarly Korean → English Translation** — an asymmetric production workflow in which Codex produces the translation and Claude Code independently reviews it without retranslating the manuscript from scratch.
 
-### 1. Research-to-Skill
+The central design pattern is:
 
-논문·책·노트·보고서를 장기적으로 축적하면서 source provenance, concept, claim, argument와 locator를 보존하는 연구 메모리 워크플로입니다.
+```text
+generation / structured writing
+        ↓
+independent verification
+        ↓
+limited correction
+        ↓
+explicit human decisions
+```
 
-기본 운영 원칙은 다음과 같습니다.
+## 1. Research-to-Skill
+
+Research-to-Skill is a long-lived research workspace built on the `icerain-cmd/book-to-skill` fork. It adds persistent source ingestion, concept and claim identity, provenance, validation, incremental semantic compilation, safe shared-workspace collaboration, and explicit agent handoff.
+
+The basic collaboration pattern is:
 
 ```text
 Agent A writes
@@ -24,11 +37,22 @@ HANDOFF.md
 Agent B verifies / continues
 ```
 
-한 시점에는 한 writer만 canonical research data를 수정하며, `preflight`, writer lock, `validate`, `HANDOFF.md`를 이용해 Codex와 Claude Code 사이의 작업 연속성을 유지합니다.
+Only **one writer** should modify canonical research state at a time. Codex and Claude Code can both work on the same project, but they should coordinate through `preflight`, writer locks, validation, Git state, and `HANDOFF.md` rather than through implicit memory.
 
-### 2. Scholarly Korean → English Translation
+Typical uses include:
 
-학술논문 번역에서는 두 모델에게 같은 원고를 두 번 독립 번역시키는 대신 역할을 비대칭적으로 나눕니다.
+- building a persistent research memory from papers and books;
+- distinguishing author claims from external claims;
+- preserving evidence locators and source provenance;
+- tracking concept evolution across multiple sources;
+- handing unfinished research work from one agent to another;
+- exporting structured research as JSON, Markdown, or an agent skill.
+
+## 2. Scholarly Korean → English Translation
+
+For scholarly translation, this repository does **not** recommend asking two models to translate the same paper independently by default.
+
+Instead, it uses asymmetric roles:
 
 ```text
 Korean manuscript
@@ -44,60 +68,112 @@ final-en.md + publication-audit.md + review-changes.md
 Human = final publication decisions
 ```
 
-핵심은 `생성 → 독립 검증 → 제한적 수정 → 인간 최종 판단`입니다.
+Codex handles full-manuscript generation, chunked translation, terminology and theory contracts, citation integrity, and translation-fidelity checks. Claude Code then compares the existing English draft against the Korean source and makes only justified local corrections.
+
+The reviewer is specifically asked to check:
+
+- semantic drift;
+- concept-family inconsistency;
+- epistemic strength;
+- negation, conditions, and modality;
+- academic English;
+- citation localization;
+- bibliography normalization;
+- publication-readiness issues.
+
+Official author romanization, target-journal style, and genuine source ambiguity remain explicit **human decisions**.
 
 ## Documentation
 
-### 한국어
-
-- **[통합 사용 매뉴얼](docs/USER_MANUAL_KO.md)** — 설치부터 실전 운영·인계·복구까지 전체 가이드
-- **[Research-to-Skill 빠른 시작](docs/RESEARCH_TO_SKILL_QUICKSTART_KO.md)** — 연구 프로젝트를 바로 시작하기 위한 최소 절차
-- **[학술 한→영 번역 빠른 시작](docs/SCHOLARLY_KO_EN_QUICKSTART_KO.md)** — Codex Translator → Claude Reviewer 생산 워크플로
-
 ### English
 
-- **[English README](README_EN.md)** — international overview of the project and its design principles
-- **[Full English User Manual](docs/USER_MANUAL_EN.md)** — installation, daily operation, handoff, validation, recovery, and copy-ready prompts
+- **[Full User Manual](docs/USER_MANUAL_EN.md)** — installation, daily operation, handoff, validation, recovery, and copy-ready prompts.
+
+### Korean
+
+- **[한국어 README](README_KO.md)**
+- **[통합 사용 매뉴얼](docs/USER_MANUAL_KO.md)** — 전체 한국어 매뉴얼
+- **[Research-to-Skill 빠른 시작](docs/RESEARCH_TO_SKILL_QUICKSTART_KO.md)**
+- **[학술 한→영 번역 빠른 시작](docs/SCHOLARLY_KO_EN_QUICKSTART_KO.md)**
 
 ## Related repositories
 
-이 문서는 다음 공개 소프트웨어를 실제 운용한 경험을 바탕으로 작성되었습니다.
+The workflows documented here are based on the following public software:
 
-- **Research-to-Skill fork:** `icerain-cmd/book-to-skill`
-  - upstream: `virgiliojr94/book-to-skill`
-- **Scholarly translation fork:** `icerain-cmd/translate-book`
-  - upstream: `deusyu/translate-book`
+### Research-to-Skill
 
-각 소프트웨어와 원 프로젝트의 저작권·라이선스는 해당 저장소에 따릅니다. 자세한 내용은 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 참조하세요.
+- Maintained fork: `icerain-cmd/book-to-skill`
+- Upstream: `virgiliojr94/book-to-skill`
+- Software license: MIT
 
-## Who this is for
+### Scholarly translation
 
-- 생성형 AI를 연구 보조자가 아니라 **연구 workflow의 역할 분리된 agent**로 사용하려는 연구자
-- 여러 AI agent 사이에서 연구 판단과 미완료 작업을 안전하게 넘기려는 사용자
-- 논문 번역에서 의미 충실성과 출판 가능성을 분리해 검증하려는 연구자
-- Windows / WSL 공유 드라이브에서 Codex와 Claude Code를 함께 사용하는 사용자
+- Maintained fork: `icerain-cmd/translate-book`
+- Upstream: `deusyu/translate-book`
+- Software license: MIT
+
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for attribution and license boundaries.
 
 ## Core principles
 
-1. **Canonical data before prose views** — 파생 Markdown보다 canonical source/data를 우선합니다.
-2. **Single writer** — 공유 연구 상태는 동시에 두 agent가 수정하지 않습니다.
-3. **Explicit handoff** — 기억에 기대지 않고 `HANDOFF.md`와 검증 가능한 산출물로 작업을 넘깁니다.
-4. **Generation and review are different jobs** — 최초 생성과 독립 검증을 같은 역할로 취급하지 않습니다.
-5. **Fidelity is not publication readiness** — 번역 충실성과 출판 준비도를 별도 gate로 평가합니다.
-6. **Human decisions remain explicit** — 공식 로마자 표기, 저널 스타일, 원전의 불확실성과 같은 최종 판단은 인간이 담당합니다.
+1. **Canonical data before prose views**  
+   Canonical source/data takes precedence over derived Markdown views.
 
-## License
+2. **Single writer**  
+   Shared research state should not be modified concurrently by multiple agents.
 
-이 저장소에서 새로 작성한 문서(original documentation)는 별도 표기가 없는 한 **Creative Commons Attribution 4.0 International (CC BY 4.0)**로 공개합니다. 자유롭게 공유·수정·번역·교육·연구에 활용할 수 있으며 적절한 출처 표기가 필요합니다.
+3. **Explicit handoff**  
+   Use `HANDOFF.md`, hashes, validation results, and working-file references instead of relying on conversational memory.
 
-소프트웨어 코드와 제3자 자료는 이 문서 라이선스의 적용 대상이 아니며 각각의 원 라이선스를 따릅니다. 자세한 내용은 [LICENSE](LICENSE)와 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 참조하세요.
+4. **Generation and review are different jobs**  
+   The agent that produces a draft and the agent that verifies it should not be treated as performing the same task.
 
-## Attribution
+5. **Fidelity is not publication readiness**  
+   A translation can accurately preserve the source argument and still require publication-specific editorial decisions.
+
+6. **Human decisions remain explicit**  
+   AI should surface unresolved scholarly or editorial questions rather than silently inventing authoritative answers.
+
+## Who this repository is for
+
+This repository is especially useful for:
+
+- humanities and social-science researchers using multiple coding agents;
+- digital-humanities projects that need traceable AI-assisted research workflows;
+- researchers who want persistent claim/concept memory rather than disposable chat sessions;
+- scholars translating Korean academic writing into English;
+- teams working across Windows, WSL, and shared drives;
+- instructors teaching reproducible human–AI research practice.
+
+## What this repository is not
+
+This is **not** an official OpenAI or Anthropic repository, and it does not imply endorsement, sponsorship, or affiliation with either company. Product interfaces and capabilities can change; always verify current product behavior against the relevant official documentation.
+
+This repository also does not replace scholarly judgment. The workflows are designed to make AI-assisted work more auditable, not to remove human responsibility.
+
+## Documentation license
+
+Original documentation in this repository is released under **Creative Commons Attribution 4.0 International (CC BY 4.0)** unless otherwise noted.
+
+You may:
+
+- share the documentation;
+- adapt it;
+- translate it;
+- use it in research, teaching, workshops, and institutional workflows;
+
+provided appropriate attribution is given.
+
+Software code and third-party materials are **not** relicensed by this documentation repository and remain under their respective licenses.
+
+See [LICENSE](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+## Citation
+
+A `CITATION.cff` file is included so the repository can be cited in academic work and teaching materials.
+
+## Maintainer
 
 Maintained by **Lee Yong Wook** (`icerain-cmd`).
 
-This documentation was developed with AI assistance and then organized as an open research workflow guide.
-
-## Disclaimer
-
-이 저장소는 OpenAI 또는 Anthropic의 공식 문서가 아니며 두 회사와 제휴·후원 관계를 의미하지 않습니다. Codex, Claude Code 및 관련 제품의 인터페이스와 기능은 변경될 수 있으므로 실제 사용 시 최신 제품 문서를 함께 확인하세요.
+This documentation was developed with AI assistance and organized as an open, reproducible research workflow guide.
