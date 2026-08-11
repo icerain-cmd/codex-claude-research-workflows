@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.1.0 — 2026-08-11
+
+International documentation release.
+
+### Added
+
+- Full English README for international researchers and instructors.
+- Full English user manual covering Research-to-Skill and scholarly Korean→English workflows.
+- Copy-ready English prompts for Codex Translator, Claude Code Reviewer, Research-to-Skill session start/end, semantic integration, and independent verification.
+- English explanations of single-writer collaboration, explicit HANDOFF, schema-v2 scholarly handoff, fidelity vs. publication-readiness gates, and human decision boundaries.
+
+### Changed
+
+- Korean README now includes direct language navigation to the English README and English user manual.
+
 ## v1.0.0 — 2026-08-11
 
 Initial public documentation baseline.
