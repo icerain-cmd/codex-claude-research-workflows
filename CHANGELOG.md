@@ -1,5 +1,32 @@
 # Changelog
 
+## v1.2.0 — 2026-08-12
+
+Distribution-hub release.
+
+### Added
+
+- `install.ps1` for Windows installation and component updates.
+- `install.sh` for WSL/Linux/macOS installation and component updates.
+- `doctor.ps1` and `doctor.sh` for environment diagnostics.
+- `components.lock.json` recording the documented component baselines.
+- `examples/README.md` with copy-ready Research-to-Skill and scholarly KO→EN operating examples.
+- GitHub Actions smoke checks for shell syntax, PowerShell parsing, and component-manifest JSON validity.
+- `LICENSE-CODE` applying MIT licensing to original installer and diagnostic code in this hub.
+
+### Changed
+
+- Reframed the repository explicitly as a **distribution and documentation hub**, rather than an executable monorepo.
+- Added one-command entry points that clone/update the maintained `book-to-skill` and `translate-book` repositories without duplicating their source code here.
+- Added automatic linking of the maintained `translate-book` checkout into Codex and Claude Code skill directories, with opt-out switches.
+- Moved installation and repository-layout guidance to the top of both English and Korean landing pages.
+- Clarified licensing boundaries between CC BY 4.0 documentation, MIT hub scripts, and separately licensed component repositories.
+
+### Documented component baselines
+
+- `icerain-cmd/book-to-skill` — `9355188b292ede45262d2871049385d310d6b106`
+- `icerain-cmd/translate-book` — `89289c5be53610cd48959db699760396bee4ba60`
+
 ## v1.1.1 — 2026-08-11
 
 International-first repository layout.
