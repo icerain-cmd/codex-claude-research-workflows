@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.1.1 — 2026-08-11
+
+International-first repository layout.
+
+### Changed
+
+- English is now the default GitHub landing page in `README.md`.
+- Korean README moved to `README_KO.md` and remains directly linked from the English landing page.
+- Removed the redundant `README_EN.md` alias to avoid maintaining duplicate English landing content.
+- Language navigation now follows the conventional `README.md` (English) / `README_KO.md` (Korean) structure.
+
 ## v1.1.0 — 2026-08-11
 
 International documentation release.
@@ -13,7 +24,7 @@ International documentation release.
 
 ### Changed
 
-- Korean README now includes direct language navigation to the English README and English user manual.
+- Korean README included direct language navigation to the English documentation during the initial bilingual rollout.
 
 ## v1.0.0 — 2026-08-11
 
