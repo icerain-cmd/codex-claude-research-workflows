@@ -1,0 +1,40 @@
+name: Distribution smoke checks
+
+on:
+  push:
+    branches: [main, "agent/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unix-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate shell scripts
+        run: |
+          bash -n install.sh
+          bash -n doctor.sh
+      - name: Validate component manifest
+        run: python -m json.tool components.lock.json > /dev/null
+
+  powershell-syntax:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate PowerShell scripts
+        shell: pwsh
+        run: |
+          $failed = $false
+          foreach ($file in @("install.ps1", "doctor.ps1")) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $file), [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count -gt 0) {
+              $failed = $true
+              $errors | ForEach-Object { Write-Error ("{0}: {1}" -f $file, $_) }
+            }
+          }
+          if ($failed) { exit 1 }

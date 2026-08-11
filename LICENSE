@@ -19,4 +19,8 @@ https://creativecommons.org/licenses/by/4.0/legalcode
 
 IMPORTANT SCOPE NOTE
 
-This license applies only to original documentation created for this repository unless a file or section states otherwise. It does not relicense third-party software, source code, trademarks, documentation, or other materials referenced here. Third-party materials remain subject to their own licenses and notices. See THIRD_PARTY_NOTICES.md.
+This license applies to original documentation created for this repository unless a file or section states otherwise.
+
+Original software code created specifically for this distribution hub, including `install.ps1`, `install.sh`, `doctor.ps1`, and `doctor.sh`, is licensed separately under the MIT License in `LICENSE-CODE`.
+
+This repository does not relicense the separately maintained component repositories, third-party software, source code, trademarks, documentation, or other referenced materials. Those materials remain subject to their own licenses and notices. See `THIRD_PARTY_NOTICES.md`.

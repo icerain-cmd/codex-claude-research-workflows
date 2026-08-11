@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "release": "1.2.0",
+  "updated": "2026-08-12",
+  "components": {
+    "research_to_skill": {
+      "repository": "icerain-cmd/book-to-skill",
+      "branch": "master",
+      "baseline_commit": "9355188b292ede45262d2871049385d310d6b106",
+      "role": "research-memory-cli"
+    },
+    "scholarly_translation": {
+      "repository": "icerain-cmd/translate-book",
+      "branch": "main",
+      "baseline_commit": "89289c5be53610cd48959db699760396bee4ba60",
+      "role": "agent-skill-and-scholar-translation-tools"
+    }
+  }
+}
