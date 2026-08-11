@@ -1,5 +1,7 @@
 # Codex · Claude Code Research Workflows
 
+**한국어** · [English](README_EN.md)
+
 **Open, practical workflows for AI-assisted humanities research with Codex and Claude Code.**
 
 이 저장소는 인문학·사회과학 연구자가 **Codex와 Claude Code를 역할 분리형으로 활용**할 수 있도록 정리한 공개 실사용 가이드입니다. 단순 프롬프트 모음이 아니라, 연구 자료의 구조화·에이전트 간 인계·학술 한→영 번역의 생성/검증 분업을 재현 가능한 워크플로로 설명합니다.
@@ -46,9 +48,16 @@ Human = final publication decisions
 
 ## Documentation
 
+### 한국어
+
 - **[통합 사용 매뉴얼](docs/USER_MANUAL_KO.md)** — 설치부터 실전 운영·인계·복구까지 전체 가이드
 - **[Research-to-Skill 빠른 시작](docs/RESEARCH_TO_SKILL_QUICKSTART_KO.md)** — 연구 프로젝트를 바로 시작하기 위한 최소 절차
 - **[학술 한→영 번역 빠른 시작](docs/SCHOLARLY_KO_EN_QUICKSTART_KO.md)** — Codex Translator → Claude Reviewer 생산 워크플로
+
+### English
+
+- **[English README](README_EN.md)** — international overview of the project and its design principles
+- **[Full English User Manual](docs/USER_MANUAL_EN.md)** — installation, daily operation, handoff, validation, recovery, and copy-ready prompts
 
 ## Related repositories
 
